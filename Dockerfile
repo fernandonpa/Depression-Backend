@@ -4,17 +4,23 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Copy requirements file (filename corrected)
+# Install system dependencies (optional but helpful)
+RUN apt-get update && apt-get install -y build-essential
+
+# Copy requirements file
 COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire application
+# Copy the application code
 COPY . .
 
-# EXPOSE is not strictly needed by Railway but is good practice
-EXPOSE 8000
+# Expose Railway's expected internal port (not strictly necessary but good practice)
+EXPOSE 8080
 
-# Command to run the application using the PORT from Railway's environment variable
-CMD uvicorn server:app --host 0.0.0.0 --port $PORT
+# Use environment variable PORT (default to 8080 if not set)
+ENV PORT=8080
+
+# Run the FastAPI app using uvicorn
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080"]
