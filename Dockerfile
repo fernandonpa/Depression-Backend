@@ -24,7 +24,7 @@ RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
 USER app
 
 # Expose the port that the app runs on
-EXPOSE $PORT
+EXPOSE 8000
 
 # Command to run the application
-CMD uvicorn server:app --host 0.0.0.0 --port $PORT
+CMD ["python", "server.py"]
