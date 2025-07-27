@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Command to run the application using the PORT from Railway's environment variable
-CMD gunicorn --host 0.0.0.0 --port $PORT server:app
+CMD gunicorn --bind 0.0.0.0:$PORT server:app
